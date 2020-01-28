@@ -1,7 +1,8 @@
-package com.illicitintelligence.android.groupgithub
+package com.illicitintelligence.android.groupgithub.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.illicitintelligence.android.groupgithub.R
 
 class MainActivity : AppCompatActivity() {
 
