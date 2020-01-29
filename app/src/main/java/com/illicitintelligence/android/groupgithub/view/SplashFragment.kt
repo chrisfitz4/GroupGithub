@@ -4,6 +4,7 @@ import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +36,11 @@ class SplashFragment: Fragment() {
         //start the animation
         val animationCallback = object : Animatable2.AnimationCallback() {
             override fun onAnimationEnd(drawable: Drawable?) {
-                if(restart||count>=3){
+                if(restart&&count<3){
                     animatedVectorDrawableStart.start()
                     count++
                     //todo: set restart to false here based on listener
+                    Log.d("TAG_X",""+count)
                 }else{
                     splash_animation.background = animatedVectorDrawableTransition
                     animatedVectorDrawableTransition.start()
@@ -57,13 +59,13 @@ class SplashFragment: Fragment() {
         animatedVectorDrawableTransition.registerAnimationCallback(animationCallbackTransition)
 
         //finish the animation
-        animatedVectorDrawableStart.start()
         val animationCallbackEndSplash = object: Animatable2.AnimationCallback(){
             override fun onAnimationEnd(drawable: Drawable?) {
-
+                fragmentManager?.popBackStack()
             }
         }
         animatedVectorDrawableEnd.registerAnimationCallback(animationCallbackEndSplash)
 
+        animatedVectorDrawableStart.start()
     }
 }
