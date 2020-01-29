@@ -38,9 +38,9 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewUserAdapter.ViewHolder holder, int position) {
 
-    String[] user = users.get(position).split(",");
-        Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(user));
-        holder.textViewuser.setText(user[0]);
+
+       // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(user));
+        holder.textViewuser.setText(users.get(position));
 
 
     }
