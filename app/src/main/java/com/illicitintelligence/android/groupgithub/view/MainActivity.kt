@@ -1,9 +1,8 @@
 package com.illicitintelligence.android.groupgithub.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.illicitintelligence.android.groupgithub.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,9 +12,14 @@ class MainActivity : AppCompatActivity() {
 
         val splashFragment = SplashFragment()
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.expand_center,R.anim.collapse_center,R.anim.expand_center,R.anim.collapse_center)
+            .setCustomAnimations(
+                0,
+                R.anim.collapse_center,
+                R.anim.expand_center,
+                R.anim.collapse_center
+            )
             .addToBackStack(splashFragment.tag)
-            .add(R.id.frame_layout,splashFragment)
+            .add(R.id.frameRV, splashFragment)
             .commit()
     }
 }

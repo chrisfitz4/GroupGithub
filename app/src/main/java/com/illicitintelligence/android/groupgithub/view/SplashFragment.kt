@@ -36,7 +36,7 @@ class SplashFragment: Fragment() {
         //start the animation
         val animationCallback = object : Animatable2.AnimationCallback() {
             override fun onAnimationEnd(drawable: Drawable?) {
-                if(restart&&count<=3){
+                if(restart&&count<3){
                     animatedVectorDrawableStart.start()
                     count++
                     //todo: set restart to false here based on listener
