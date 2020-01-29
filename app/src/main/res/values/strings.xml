@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Group Github</string>
     <string name="hello_world"></string>
-    <string name="title">Title!</string>
+    <string name="title">title!</string>
     <string name="users">Users</string>
     <string name="add_user">Add User</string>
     <string name="animation">animation</string>

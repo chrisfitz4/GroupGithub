@@ -1,6 +1,5 @@
 package com.illicitintelligence.android.groupgithub.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.illicitintelligence.android.groupgithub.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RecyclerViewNewUserAdapter extends RecyclerView.Adapter<RecyclerViewNewUserAdapter.ViewHolder> {
 
@@ -25,20 +23,15 @@ public class RecyclerViewNewUserAdapter extends RecyclerView.Adapter<RecyclerVie
     @NonNull
     @Override
     public RecyclerViewNewUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_adduser, parent, false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_user, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewNewUserAdapter.ViewHolder holder, int position) {
 
-
-
        // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(newuserss));
         holder.textViewnewusers.setText(newusers.get(position));
-
     }
 
     @Override
@@ -47,14 +40,13 @@ public class RecyclerViewNewUserAdapter extends RecyclerView.Adapter<RecyclerVie
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewnewusers;
 
-
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewnewusers = itemView.findViewById(R.id.addusers_rvtxt);
+            textViewnewusers = itemView.findViewById(R.id.users_rvtxt);
         }
     }
 
