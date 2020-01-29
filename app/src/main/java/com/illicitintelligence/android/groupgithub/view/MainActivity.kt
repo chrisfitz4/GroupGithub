@@ -13,8 +13,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.illicitintelligence.android.groupgithub.adapter.RecyclerViewNewUserAdapter
 import com.illicitintelligence.android.groupgithub.adapter.RecyclerViewUserAdapter
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
+import com.illicitintelligence.android.groupgithub.network.UserAccessToken
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,6 +32,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        next_user_btn.setOnClickListener {
+            val login = LoginFragment()
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(login.tag)
+                .add(R.id.frameRV, login)
+                .commit()
+        }
 
         //setUpSplashScreen()
 
@@ -52,13 +64,6 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.frameRV, splashFragment)
             .commit()
 
-        next_userbtn.setOnClickListener {
-            val login = LoginFragment()
-            supportFragmentManager.beginTransaction()
-                .addToBackStack(login.tag)
-                .add(R.id.frameRV, login)
-                .commit()
-        }
     }
 
     private fun setUpRV(){
@@ -68,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateRV(){
         rvAdapter.notifyDataSetChanged()
     }
-}
 
     override fun onResume() {
         super.onResume()
@@ -79,8 +83,28 @@ class MainActivity : AppCompatActivity() {
 
         if(uri.toString().startsWith(BuildConfig.clientCallback)) {
             val code : String? = uri?.getQueryParameter("code")
+            val TAG = "TAG_X"
 
+            var myObserver : io.reactivex.Observer<UserAccessToken> = object : io.reactivex.Observer<UserAccessToken> {
+                override fun onComplete() {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
+                override fun onSubscribe(d: Disposable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onNext(t: UserAccessToken) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onError(e: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+            }
+
+             oauth.getToken(code)
         }
 
     }
