@@ -23,12 +23,22 @@ class GithubViewModel (application: Application) : AndroidViewModel(application)
                 })
     }
 
-    fun getUserWithToken(userAccessToken: UserAccessToken) {
+    fun getRepos(username: String) {
         compositeDisposable.add(
-            githubRetrofit.getUser(userAccessToken)
+            githubRetrofit.getRepos(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { gitUSer ->
+                .subscribe { list ->
+
+                })
+    }
+
+    fun getRepos(userAccessToken: UserAccessToken) {
+        compositeDisposable.add(
+            githubRetrofit.getRepos(userAccessToken)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { list ->
 
                 })
     }

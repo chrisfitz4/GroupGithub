@@ -1,5 +1,6 @@
 package com.illicitintelligence.android.groupgithub.network
 
+import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.model.GithubUser
 import com.illicitintelligence.android.groupgithub.util.Constants
 import io.reactivex.Observable
@@ -36,7 +37,11 @@ class GithubRetrofit {
         return githubService.getUser(userName)
     }
 
-    fun getUser(userAccessToken: UserAccessToken): Observable<GithubUser> {
-        return githubService.getUserWithToken(userAccessToken.accessToken, userAccessToken.userName)
+    fun getRepos(userName: String): Observable<List<GithubRepos>> {
+        return githubService.getRepos(userName)
+    }
+
+    fun getRepos(userAccessToken: UserAccessToken): Observable<List<GithubRepos>> {
+        return githubService.getReposWithToken(userAccessToken.accessToken, userAccessToken.userName)
     }
 }
