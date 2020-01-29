@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="turquoise">#76D7C4</color>
+    <color name="red">#E6230F</color>
+    <color name="dandelion">#F1C40F</color>
+    <color name="silver">#CACFD2</color>
+    <color name="lime">#A0E139</color>
+    <color name="royal_blue">#000A6E</color>
+    <color name="cream">#FAE5D3</color>
 </resources>
