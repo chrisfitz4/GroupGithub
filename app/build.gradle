@@ -19,6 +19,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "clientID", GROUP_GITHUB_ID
+            buildConfigField "String", "clientSecret", GROUP_GITHUB_Secret
+            buildConfigField "String", "clientCallback", GROUP_GITHUB_callback
+        }
+        debug {
+            buildConfigField "String", "clientID", GROUP_GITHUB_ID
+            buildConfigField "String", "clientSecret", GROUP_GITHUB_Secret
+            buildConfigField "String", "clientCallback", GROUP_GITHUB_callback
         }
     }
 }
