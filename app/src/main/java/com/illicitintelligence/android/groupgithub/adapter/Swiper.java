@@ -22,7 +22,7 @@ public class Swiper extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        return ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT;
+        return makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT);
     }
 
     @Override
