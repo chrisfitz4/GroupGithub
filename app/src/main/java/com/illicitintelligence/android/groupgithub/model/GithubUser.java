@@ -61,7 +61,7 @@ public class GithubUser {
     private Boolean siteAdmin;
     @SerializedName("name")
     @Expose
-    private Object name;
+    private String name;
     @SerializedName("company")
     @Expose
     private Object company;
@@ -243,11 +243,11 @@ public class GithubUser {
         this.siteAdmin = siteAdmin;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 
