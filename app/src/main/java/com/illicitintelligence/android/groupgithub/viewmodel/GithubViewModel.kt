@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.model.GithubUser
+import com.illicitintelligence.android.groupgithub.model.commits.CommitResult
 import com.illicitintelligence.android.groupgithub.network.GithubRetrofit
 import com.illicitintelligence.android.groupgithub.network.UserAccessToken
 import io.reactivex.Observable
@@ -34,4 +35,11 @@ class GithubViewModel (application: Application) : AndroidViewModel(application)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun getCommits(username: String, repoName: String): Observable<List<CommitResult>>{
+        return githubRetrofit.getCommit(username,repoName)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

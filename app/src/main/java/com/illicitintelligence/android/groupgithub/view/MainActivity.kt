@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.illicitintelligence.android.groupgithub.R
 import com.illicitintelligence.android.groupgithub.adapter.RepoAdapter
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
