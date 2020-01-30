@@ -28,5 +28,9 @@ interface GithubService {
         @Path("userName") userName: String,
         @Path("repo") repoName: String): Observable<List<CommitResult>>
 
-
+    @GET("repos/{userName}/{repo}/commits/{sha}")
+    fun getCommitDetail(
+        @Path("sha") sha: String,
+        @Path("userName") userName: String,
+        @Path("repo") repoName: String): Observable<CommitResult>
 }

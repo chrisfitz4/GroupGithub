@@ -49,4 +49,8 @@ class GithubRetrofit {
     fun getCommit(userName: String, repoName: String): Observable<List<CommitResult>> {
         return githubService.getCommit(userName, repoName)
     }
+
+    fun getCommitDetail(sha: String, userName: String, repoName: String): Observable<CommitResult> {
+        return githubService.getCommitDetail(sha, userName, repoName)
+    }
 }
