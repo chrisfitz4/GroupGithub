@@ -1,11 +1,21 @@
 package com.illicitintelligence.android.groupgithub.network;
 
+
 public class UserAccessToken {
+
     private String accessToken;
+
+    private String scope;
+
+    private String tokenType;
+
     private String userName;
 
-    public UserAccessToken(String accessToken, String userName) {
-        this.accessToken = accessToken;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -17,11 +27,20 @@ public class UserAccessToken {
         this.accessToken = accessToken;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getScope() {
+        return scope;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
+
 }

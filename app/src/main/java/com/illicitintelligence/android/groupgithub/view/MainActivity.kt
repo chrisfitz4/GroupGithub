@@ -1,15 +1,24 @@
 package com.illicitintelligence.android.groupgithub.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.illicitintelligence.android.groupgithub.BuildConfig
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.illicitintelligence.android.groupgithub.R
 import com.illicitintelligence.android.groupgithub.adapter.RepoAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
+import com.illicitintelligence.android.groupgithub.network.UserAccessToken
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,6 +32,14 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        next_user_btn.setOnClickListener {
+            val login = LoginFragment()
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(login.tag)
+                .add(R.id.frameRV, login)
+                .commit()
+        }
 
         rvAdapter = RepoAdapter(ArrayList<GithubRepos>(),this, this)
         //setUpSplashScreen()
@@ -70,5 +87,5 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
         super.onDestroy()
         compositeDisposable.clear()
     }
+
 }
-  
