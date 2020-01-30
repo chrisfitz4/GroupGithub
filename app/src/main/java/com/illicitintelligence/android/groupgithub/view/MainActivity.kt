@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         setUpRV()
+
+        //todo: replace username with the values from SharedPreferences
+
         viewModel.getRepos("chrisfitz4")?.subscribe {
             rvAdapter = RecyclerViewUserAdapter(it as ArrayList<GithubRepos>)
             rv_main.adapter = rvAdapter
@@ -52,7 +55,10 @@ class MainActivity : AppCompatActivity() {
         rv_main.adapter = rvAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
     }
-    private fun updateRV(){
-        rvAdapter.notifyDataSetChanged()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }
+  
