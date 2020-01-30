@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "747470224395",
+    "firebase_url": "https://groupgithub.firebaseio.com",
+    "project_id": "groupgithub",
+    "storage_bucket": "groupgithub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747470224395:android:a49f18b946345297d59b0e",
+        "android_client_info": {
+          "package_name": "com.illicitintelligence.android.groupgithub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747470224395-h9ar3k5tkeqv2j47urh4l2bu30nat5l7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.illicitintelligence.android.groupgithub",
+            "certificate_hash": "163a8dfe21b3b6af3b9afd15b6cb5ddbb49672e7"
+          }
+        },
+        {
+          "client_id": "747470224395-9j26vutvepo7cf1m9dkps6kdmtd74e83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvLFO4mQgc1H-Hmpv3ZXWMmFWfbyx7Qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747470224395-9j26vutvepo7cf1m9dkps6kdmtd74e83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

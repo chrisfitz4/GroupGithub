@@ -6,15 +6,22 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.illicitintelligence.android.groupgithub.BuildConfig
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.illicitintelligence.android.groupgithub.R
 import com.illicitintelligence.android.groupgithub.adapter.RepoAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.util.Constants
+import com.illicitintelligence.android.groupgithub.network.UserAccessToken
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,6 +38,14 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        next_user_btn.setOnClickListener {
+            val login = LoginFragment()
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(login.tag)
+                .add(R.id.frameRV, login)
+                .commit()
+        }
 
         sharedPreferences = getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE)
         if(sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"").equals("")){
@@ -75,7 +90,6 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
         }?.let { compositeDisposable.add(it) }
     }
 
-
     private fun setUpSplashScreen() {
         val splashFragment = SplashFragment()
         supportFragmentManager.beginTransaction()
@@ -107,5 +121,5 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
         super.onDestroy()
         compositeDisposable.clear()
     }
+
 }
-  

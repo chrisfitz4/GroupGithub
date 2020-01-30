@@ -28,9 +28,9 @@
 
     <ImageView
         android:id="@+id/next_user_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_list"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/title"
-        android:textSize="48sp"
+        android:text="gititdone"
+        android:textSize="40sp"
         android:textColor="@color/cream"
         android:fontFamily="monospace"
         app:layout_constraintEnd_toEndOf="parent"
