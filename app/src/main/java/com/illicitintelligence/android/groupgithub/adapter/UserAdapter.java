@@ -9,34 +9,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.illicitintelligence.android.groupgithub.R;
+import com.illicitintelligence.android.groupgithub.model.GithubUser;
 
 import java.util.ArrayList;
 
-public class RecyclerViewNewUserAdapter extends RecyclerView.Adapter<RecyclerViewNewUserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    ArrayList<String> newusers;
+    private ArrayList<GithubUser> users;
 
-    public RecyclerViewNewUserAdapter(ArrayList<String> newusers) {
-        this.newusers = newusers;
+    public UserAdapter(ArrayList<GithubUser> users) {
+        this.users = users;
     }
 
     @NonNull
     @Override
-    public RecyclerViewNewUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_user, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewNewUserAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
 
        // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(newuserss));
-        holder.textViewnewusers.setText(newusers.get(position));
+        holder.textViewnewusers.setText(users.get(position).getLogin());
     }
 
     @Override
     public int getItemCount() {
-        return newusers.size();
+        return users.size();
 
     }
 
