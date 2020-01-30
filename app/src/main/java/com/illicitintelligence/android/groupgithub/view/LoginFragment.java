@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,9 @@ public class LoginFragment extends Fragment {
 
     Button loginButton;
     EditText usernameEdit;
-    WebView webView;
+
+    TextView usernameText;
+    TextView tokenText;
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("github.com");
 
@@ -49,8 +52,8 @@ public class LoginFragment extends Fragment {
 
         loginButton = view.findViewById(R.id.login_Github_button);
         usernameEdit = view.findViewById(R.id.login_username_editText);
-        webView = view.findViewById(R.id.login_github_webview);
-        webView.setVisibility(View.GONE);
+        usernameText = view.findViewById(R.id.login_username_textView);
+        tokenText = view.findViewById(R.id.login_usertoken_textView);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,13 +85,17 @@ public class LoginFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("GroupGithub", Context.MODE_PRIVATE);
 
+        firebaseAuth.signOut();
+
         Task<AuthResult> task = firebaseAuth.getPendingAuthResult();
         if(task != null) {
             task.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     String userName = authResult.getAdditionalUserInfo().getUsername();
+                    usernameText.setText(userName);
                     OAuthCredential credential = (OAuthCredential)authResult.getCredential();
+                    tokenText.setText(credential.getIdToken() + ": " + credential.getAccessToken());
                     Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -105,8 +112,11 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             String userName = authResult.getAdditionalUserInfo().getUsername();
+                            usernameText.setText(userName);
                             OAuthCredential credential = (OAuthCredential)authResult.getCredential();
+                            tokenText.setText(credential.getIdToken() + ": " + credential.getAccessToken());
                             Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
