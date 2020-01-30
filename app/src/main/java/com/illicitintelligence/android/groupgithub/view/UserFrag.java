@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class UserFrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         button = button.findViewById(R.id.button_adduser);
         textViewww = textViewww.findViewById(R.id.users_txt);
+
         final String user = getArguments().getString("this user");
         if (user != null) {
             textViewww.setText(user);
