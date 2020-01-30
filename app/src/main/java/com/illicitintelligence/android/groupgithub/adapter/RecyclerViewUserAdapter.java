@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.illicitintelligence.android.groupgithub.R;
+import com.illicitintelligence.android.groupgithub.model.GithubRepos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,48 +19,39 @@ import java.util.Arrays;
 
 public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUserAdapter.ViewHolder> {
 
-    ArrayList<String> users;
+    ArrayList<GithubRepos> repos;
 
-    public RecyclerViewUserAdapter(ArrayList<String> users) {
-        this.users = users;
+    public RecyclerViewUserAdapter(ArrayList<GithubRepos> repos) {
+        this.repos = repos;
     }
 
 
     @NonNull
     @Override
     public RecyclerViewUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_user, parent, false);
-
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_repos, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewUserAdapter.ViewHolder holder, int position) {
-
-
        // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(user));
-        holder.textViewuser.setText(users.get(position));
-
-
+        holder.textViewUser.setText(repos.get(position).getOwner().getLogin());
+        holder.textViewRepoName.setText(repos.get(position).getName());
     }
 
     @Override
-    public int getItemCount() { return users.size(); }
+    public int getItemCount() { return repos.size(); }
 
-       public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewuser;
+        TextView textViewUser;
+        TextView textViewRepoName;
 
-           public ViewHolder(@NonNull View itemView) {
+           ViewHolder(@NonNull View itemView) {
                super(itemView);
-               textViewuser = itemView.findViewById(R.id.users_rvtxt);
-
-
-
+               textViewUser = itemView.findViewById(R.id.username_textview);
+               textViewRepoName = itemView.findViewById(R.id.repoName_textview);
            }
-
-
     }
 }

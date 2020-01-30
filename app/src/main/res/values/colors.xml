@@ -10,4 +10,6 @@
     <color name="lime">#A0E139</color>
     <color name="royal_blue">#000A6E</color>
     <color name="cream">#FAE5D3</color>
+    <color name="black">#000000</color>
+    <color name="defaultColor">#808080</color>
 </resources>
