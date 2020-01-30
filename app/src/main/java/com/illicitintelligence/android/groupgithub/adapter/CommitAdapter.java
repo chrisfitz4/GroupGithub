@@ -12,12 +12,17 @@ import com.illicitintelligence.android.groupgithub.R;
 import com.illicitintelligence.android.groupgithub.model.commits.CommitResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder> {
 
-    private ArrayList<CommitResult> commits;
+    private List<CommitResult> commits;
 
-    public CommitAdapter(ArrayList<CommitResult> commits) {
+    public CommitAdapter(List<CommitResult> commits) {
+        this.commits = commits;
+    }
+
+    public void setCommits(List<CommitResult> commits) {
         this.commits = commits;
     }
 
@@ -30,7 +35,10 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CommitAdapter.ViewHolder holder, int position) {
-
+        CommitResult currentCommit = commits.get(position);
+        holder.author.setText(currentCommit.getAuthor().getLogin());
+        holder.description.setText(currentCommit.getCommit().getMessage());
+        holder.date.setText(currentCommit.getCommit().getAuthor().getMessage());
     }
 
     @Override
@@ -41,9 +49,17 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView author;
-        TextView
+        TextView date;
+        TextView description;
+        TextView pluses;
+        TextView minuses;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            author = itemView.findViewById(R.id.commit_author_tv);
+            date = itemView.findViewById(R.id.commit_date_tv);
+            description = itemView.findViewById(R.id.commit_description_tv);
+            pluses = itemView.findViewById(R.id.commit_pluses_tv);
+            minuses = itemView.findViewById(R.id.commit_minuses_tv);
         }
     }
 }

@@ -10,20 +10,37 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.illicitintelligence.android.groupgithub.R;
+import com.illicitintelligence.android.groupgithub.adapter.CommitAdapter;
 import com.illicitintelligence.android.groupgithub.model.GithubRepos;
+import com.illicitintelligence.android.groupgithub.model.commits.CommitResult;
+import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
 
 public class CommitsFrag extends Fragment {
 
     private GithubRepos repo;
     private final String TAG = "TAG_X";
+    private GithubViewModel viewModel;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @BindView(R.id.reponame_textview_commitfrag)
     TextView repoName;
@@ -48,11 +65,40 @@ public class CommitsFrag extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(GithubViewModel.class);
         ButterKnife.bind(this,view);
-        Log.d(TAG, "onViewCreated: "+repo.getName());
+        Log.d(TAG, "onViewCreated: "+repo.getName()+","+repo.getOwner().getLogin());
         repoName.setText(repo.getName());
         language.setText(repo.getLanguage());
         owner.setText(repo.getOwner().getLogin());
+        final CommitAdapter adapter = new CommitAdapter(new ArrayList<CommitResult>());
+        commits.setAdapter(adapter);
+        commits.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        compositeDisposable.add(viewModel.getCommits(repo.getName(),repo.getOwner().getLogin())
+                .subscribeWith(new DisposableObserver<List<CommitResult>>() {
+                    @Override
+                    public void onNext(List<CommitResult> commitResults) {
+                        adapter.setCommits(commitResults);
+                        adapter.notifyDataSetChanged();
+                        Log.d(TAG, "onNext: "+adapter.getItemCount());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: "+e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: completed");
+                    }
+                }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 }
