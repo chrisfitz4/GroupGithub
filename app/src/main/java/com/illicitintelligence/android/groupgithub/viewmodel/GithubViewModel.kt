@@ -34,5 +34,4 @@ class GithubViewModel (application: Application) : AndroidViewModel(application)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
-
 }
