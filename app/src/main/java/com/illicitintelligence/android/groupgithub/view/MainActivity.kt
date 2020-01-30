@@ -3,6 +3,7 @@ package com.illicitintelligence.android.groupgithub.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.illicitintelligence.android.groupgithub.BuildConfig
 import androidx.lifecycle.Observer
@@ -68,7 +69,24 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
             .addToBackStack(splashFragment.tag)
             .add(R.id.frameRV, splashFragment)
             .commit()
+
     }
+
+
+        public fun onClickUser(view: View) {
+
+            val userFrag = UserFrag()
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(userFrag.tag)
+                .add(R.id.frameRV, userFrag)
+                .commit()
+
+        }
+
+
+
+
+
     private fun setUpRV(){
         rv_main.adapter = rvAdapter
         rv_main.layoutManager = LinearLayoutManager(this)

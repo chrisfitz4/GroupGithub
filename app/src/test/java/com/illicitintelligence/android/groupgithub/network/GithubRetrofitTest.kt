@@ -29,7 +29,7 @@ class GithubRetrofitTest {
     @Test
     fun getRepos1() {
         val githubRetrofit = GithubRetrofit()
-        val repos = githubRetrofit.getRepos(UserAccessToken("c93c9d20489f56dda16d4be219df91916ad621e7","chrisfitz4"))
+        val repos = githubRetrofit.getRepos(UserAccessToken())
 
         try {
             assertNotNull(repos.blockingFirst())

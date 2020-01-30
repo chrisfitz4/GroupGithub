@@ -30,6 +30,10 @@ android {
             buildConfigField "String", "clientCallback", GROUP_GITHUB_callback
         }
     }
+    compileOptions{
+        targetCompatibility="8"
+        sourceCompatibility="8"
+    }
 }
 
 dependencies {

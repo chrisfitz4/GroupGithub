@@ -8,4 +8,6 @@ public class Constants {
     public static final String TOKEN_SCOPE = "scope_";
     public static final String TOKEN_TYPE = "type_";
     public static final String TOKEN_NAME = "userName_";
+    public static final String SHAREDPREFERENCES_USERS = "shared.preferences.users";
+    public static final String SHAREDPREFERENCES_USERS_KEY = "shared.preferences.users.key"; //""
 }

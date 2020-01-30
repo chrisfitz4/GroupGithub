@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private ArrayList<GithubUser> users;
+    private ArrayList<String> users;
 
-    public UserAdapter(ArrayList<GithubUser> users) {
+    public UserAdapter(ArrayList<String> users) {
         this.users = users;
     }
 
@@ -30,19 +30,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
-
        // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(newuserss));
-        holder.textViewnewusers.setText(users.get(position).getLogin());
+        String[] oneUser = users.get(position).split("\\.");
+
+        holder.textViewnewusers.setText(oneUser[0]);
+        holder.itemView.getBackground().setTint(Integer.parseInt(oneUser[1]));
     }
 
     @Override
     public int getItemCount() {
         return users.size();
-
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView textViewnewusers;
 
         ViewHolder(@NonNull View itemView) {
