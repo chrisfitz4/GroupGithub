@@ -1,12 +1,10 @@
 package com.illicitintelligence.android.groupgithub.view
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.illicitintelligence.android.groupgithub.BuildConfig
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.illicitintelligence.android.groupgithub.R
 import com.illicitintelligence.android.groupgithub.adapter.RepoAdapter
 import com.illicitintelligence.android.groupgithub.network.OAuthenticationInstance
@@ -23,13 +21,12 @@ import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
 
     lateinit var viewModel: GithubViewModel
 
     val compositeDisposable = CompositeDisposable()
-    var rvAdapter =
-        RepoAdapter(ArrayList<GithubRepos>())
+    lateinit var rvAdapter: RepoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        rvAdapter = RepoAdapter(ArrayList<GithubRepos>(),this, this)
         //setUpSplashScreen()
 
         viewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getRepos("chrisfitz4")?.subscribe {
             rvAdapter =
-                RepoAdapter(it as ArrayList<GithubRepos>)
+                RepoAdapter(it as ArrayList<GithubRepos>, this, this)
             rv_main.adapter = rvAdapter
         }?.let { compositeDisposable.add(it) }
     }
@@ -75,43 +73,18 @@ class MainActivity : AppCompatActivity() {
         rv_main.layoutManager = LinearLayoutManager(this)
     }
 
+    override fun getCommits(repo: GithubRepos?) {
+        val commitFragment = CommitsFrag(repo)
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.expand_center,R.anim.collapse_center,R.anim.expand_center,R.anim.collapse_center)
+            .add(R.id.frameRV,commitFragment)
+            .addToBackStack(commitFragment.tag)
+            .commit()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()
     }
-
-    override fun onResume() {
-        super.onResume()
-
-        val oauth = OAuthenticationInstance()
-
-        val uri : Uri? = this.intent.data
-
-        if(uri.toString().startsWith(BuildConfig.clientCallback)) {
-            val code : String? = uri?.getQueryParameter("code")
-            val TAG = "TAG_X"
-
-            var myObserver : io.reactivex.Observer<UserAccessToken> = object : io.reactivex.Observer<UserAccessToken> {
-                override fun onComplete() {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onNext(t: UserAccessToken) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onError(e: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-            }
-
-             oauth.getToken(code)
-        }
-
-    }
 }
+  

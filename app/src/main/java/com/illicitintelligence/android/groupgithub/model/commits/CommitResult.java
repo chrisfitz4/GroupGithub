@@ -40,6 +40,12 @@ public class CommitResult {
     @SerializedName("parents")
     @Expose
     private List<Parent> parents = null;
+    @SerializedName("stats")
+    @Expose
+    private Stats stats;
+    @SerializedName("files")
+    @Expose
+    private List<File> files = null;
 
     public String getSha() {
         return sha;
@@ -111,6 +117,22 @@ public class CommitResult {
 
     public void setParents(List<Parent> parents) {
         this.parents = parents;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 
 }

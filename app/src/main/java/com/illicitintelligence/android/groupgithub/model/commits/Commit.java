@@ -9,10 +9,10 @@ public class Commit {
 
     @SerializedName("author")
     @Expose
-    private GithubUser author;
+    private CommitAuthor author;
     @SerializedName("committer")
     @Expose
-    private GithubUser committer;
+    private CommitAuthor committer;
     @SerializedName("message")
     @Expose
     private String message;
@@ -29,19 +29,19 @@ public class Commit {
     @Expose
     private Verification verification;
 
-    public GithubUser getAuthor() {
+    public CommitAuthor getAuthor() {
         return author;
     }
 
-    public void setGithubUser(GithubUser author) {
+    public void setGithubUser(CommitAuthor author) {
         this.author = author;
     }
 
-    public GithubUser getCommitter() {
+    public CommitAuthor getCommitter() {
         return committer;
     }
 
-    public void setCommitter(GithubUser committer) {
+    public void setCommitter(CommitAuthor committer) {
         this.committer = committer;
     }
 
