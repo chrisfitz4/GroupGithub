@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
 
-    private final int CUTOFF_LENGTH_SMALL = 18;
-    private final int CUTOFF_LENGTH_MEDIUM = 26;
+    private final int CUTOFF_LENGTH_SMALL = 16;
+    private final int CUTOFF_LENGTH_MEDIUM = 20;
     private ArrayList<GithubRepos> repos;
     private Context context;
     private OpenCommitsDelegate delegate;
@@ -51,9 +51,12 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
         holder.textViewRepoName.setText(repos.get(position).getName());
         holder.language.setText(repos.get(position).getLanguage());
         if(repos.get(position).getName().length()>CUTOFF_LENGTH_MEDIUM){
-            holder.textViewRepoName.setTextSize(16);
+            holder.textViewRepoName.setText(wrappingHelper(repos.get(position).getName()));
+            holder.textViewRepoName.setTextSize(18);
         }else if(repos.get(position).getName().length()>CUTOFF_LENGTH_SMALL){
-            holder.textViewRepoName.setTextSize(20);
+            holder.textViewRepoName.setTextSize(18);
+        }else{
+            holder.textViewRepoName.setTextSize(24);
         }
         Glide.with(context).load(repos.get(position).getOwner().getAvatarUrl()).into(holder.userIcon);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +66,22 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
                 delegate.getCommits(repos.get(position));
             }
         });
+    }
+
+    private String wrappingHelper(String toWrap){
+        String toReturn = toWrap;
+        if(toWrap.contains("_")){
+            for(int i = toWrap.length()-1; i>0; i--){
+                if(toWrap.charAt(i)=='_'||toWrap.charAt(i)=='-'){
+                    toReturn = "";
+                    toReturn+=toWrap.substring(0,i)+"\n "+toWrap.substring(i);
+                    Log.d("TAG_X", "wrappingHelper: "+toReturn);
+                    break;
+                }
+            }
+            return toReturn;
+        }
+        return toReturn;
     }
 
     @Override

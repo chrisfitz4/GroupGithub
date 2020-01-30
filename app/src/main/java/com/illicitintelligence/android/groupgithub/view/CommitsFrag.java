@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,19 +21,12 @@ import com.illicitintelligence.android.groupgithub.model.GithubRepos;
 import com.illicitintelligence.android.groupgithub.model.commits.CommitResult;
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 
 public class CommitsFrag extends Fragment {
@@ -50,6 +44,8 @@ public class CommitsFrag extends Fragment {
     TextView owner;
     @BindView(R.id.recyclerview_commitfrag)
     RecyclerView commits;
+    @BindView(R.id.icon_commitfrag)
+    ImageView githubLogo;
 
     public CommitsFrag(GithubRepos repo){
         this.repo = repo;
@@ -75,12 +71,17 @@ public class CommitsFrag extends Fragment {
         commits.setAdapter(adapter);
         commits.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        compositeDisposable.add(viewModel.getCommits(repo.getName(),repo.getOwner().getLogin())
+        compositeDisposable.add(viewModel.getCommits(repo.getOwner().getLogin(),repo.getName())
                 .subscribeWith(new DisposableObserver<List<CommitResult>>() {
                     @Override
                     public void onNext(List<CommitResult> commitResults) {
                         adapter.setCommits(commitResults);
                         adapter.notifyDataSetChanged();
+                        if(adapter.getItemCount()>2){
+                            githubLogo.setVisibility(View.GONE);
+                        }else{
+                            githubLogo.setVisibility(View.VISIBLE);
+                        }
                         Log.d(TAG, "onNext: "+adapter.getItemCount());
                     }
 

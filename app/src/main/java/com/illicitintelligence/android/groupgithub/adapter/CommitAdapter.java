@@ -38,7 +38,9 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
         CommitResult currentCommit = commits.get(position);
         holder.author.setText(currentCommit.getAuthor().getLogin());
         holder.description.setText(currentCommit.getCommit().getMessage());
-        holder.date.setText(currentCommit.getCommit().getAuthor().getMessage());
+        String date = currentCommit.getCommit().getAuthor().getMessage();
+        String[] dateSplit = date.split("T");
+        holder.date.setText(dateSplit[0]);
     }
 
     @Override
