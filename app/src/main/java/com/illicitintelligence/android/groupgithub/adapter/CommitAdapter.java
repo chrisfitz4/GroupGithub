@@ -24,7 +24,7 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
     @NonNull
     @Override
     public CommitAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_user, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout_commits, parent, false);
         return new CommitAdapter.ViewHolder(view);
     }
 
@@ -40,8 +40,8 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
-
+        TextView author;
+        TextView
         ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
