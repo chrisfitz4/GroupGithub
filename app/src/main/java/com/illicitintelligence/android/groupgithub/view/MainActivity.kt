@@ -2,12 +2,10 @@ package com.illicitintelligence.android.groupgithub.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.illicitintelligence.android.groupgithub.R
-import com.illicitintelligence.android.groupgithub.adapter.RecyclerViewNewUserAdapter
-import com.illicitintelligence.android.groupgithub.adapter.RecyclerViewUserAdapter
+import com.illicitintelligence.android.groupgithub.adapter.RepoAdapter
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -19,7 +17,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModel: GithubViewModel
 
     val compositeDisposable = CompositeDisposable()
-    var rvAdapter = RecyclerViewUserAdapter(ArrayList<GithubRepos>())
+    var rvAdapter =
+        RepoAdapter(ArrayList<GithubRepos>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         setUpRV()
+
+        //todo: replace username with the values from SharedPreferences
+
         viewModel.getRepos("chrisfitz4")?.subscribe {
-            rvAdapter = RecyclerViewUserAdapter(it as ArrayList<GithubRepos>)
+            rvAdapter =
+                RepoAdapter(it as ArrayList<GithubRepos>)
             rv_main.adapter = rvAdapter
         }?.let { compositeDisposable.add(it) }
     }
@@ -52,7 +55,10 @@ class MainActivity : AppCompatActivity() {
         rv_main.adapter = rvAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
     }
-    private fun updateRV(){
-        rvAdapter.notifyDataSetChanged()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }
+  
