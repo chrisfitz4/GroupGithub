@@ -2,6 +2,7 @@ package com.illicitintelligence.android.groupgithub.network
 
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.model.GithubUser
+import com.illicitintelligence.android.groupgithub.model.commits.CommitResult
 import com.illicitintelligence.android.groupgithub.util.Constants
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -43,5 +44,9 @@ class GithubRetrofit {
 
     fun getRepos(userAccessToken: UserAccessToken): Observable<List<GithubRepos>> {
         return githubService.getReposWithToken(userAccessToken.accessToken, userAccessToken.userName)
+    }
+
+    fun getCommit(userName: String, repoName: String): Observable<List<CommitResult>> {
+        return githubService.getCommit(userName, repoName)
     }
 }
