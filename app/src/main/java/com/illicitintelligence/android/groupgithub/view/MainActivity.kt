@@ -1,6 +1,7 @@
 package com.illicitintelligence.android.groupgithub.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,7 +51,24 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(splashFragment.tag)
             .add(R.id.frameRV, splashFragment)
             .commit()
+
     }
+
+
+        public fun onClickUser(view: View) {
+
+            val userFrag = UserFrag()
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(userFrag.tag)
+                .add(R.id.frameRV, userFrag)
+                .commit()
+
+        }
+
+
+
+
+
     private fun setUpRV(){
         rv_main.adapter = rvAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
