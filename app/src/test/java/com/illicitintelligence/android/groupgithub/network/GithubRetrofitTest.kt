@@ -29,7 +29,7 @@ class GithubRetrofitTest {
     @Test
     fun getRepos1() {
         val githubRetrofit = GithubRetrofit()
-        val repos = githubRetrofit.getRepos(UserAccessToken("c93c9d20489f56dda16d4be219df91916ad621e7","chrisfitz4"))
+        val repos = githubRetrofit.getRepos(UserAccessToken())
 
         try {
             assertNotNull(repos.blockingFirst())
@@ -42,6 +42,18 @@ class GithubRetrofitTest {
     fun getCommit() {
         val githubRetrofit = GithubRetrofit()
         val commits = githubRetrofit.getCommit("chrisfitz4","groupgithub")
+
+        try {
+            assertNotNull(commits.blockingFirst())
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    @Test
+    fun getCommitDetail() {
+        val githubRetrofit = GithubRetrofit()
+        val commits = githubRetrofit.getCommitDetail("e636f4ee5542ca07564080a074fa2e90576e2e5c","chrisfitz4","groupgithub")
 
         try {
             assertNotNull(commits.blockingFirst())
