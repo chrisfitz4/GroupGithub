@@ -1,17 +1,12 @@
 package com.illicitintelligence.android.groupgithub.network;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class UserAccessToken {
-    @SerializedName("access_token")
-    @Expose
+
     private String accessToken;
-    @SerializedName("scope")
-    @Expose
+
     private String scope;
-    @SerializedName("token_type")
-    @Expose
+
     private String tokenType;
 
     private String userName;

@@ -1,7 +1,11 @@
 package com.illicitintelligence.android.groupgithub.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.illicitintelligence.android.groupgithub.BuildConfig
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -86,5 +90,5 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
         super.onDestroy()
         compositeDisposable.clear()
     }
+
 }
-  

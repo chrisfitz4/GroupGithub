@@ -1,6 +1,7 @@
 package com.illicitintelligence.android.groupgithub.view;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.OAuthProvider;
 import com.illicitintelligence.android.groupgithub.BuildConfig;
 import com.illicitintelligence.android.groupgithub.R;
-import com.illicitintelligence.android.groupgithub.network.OAuthenticationInstance;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginFragment extends Fragment {
 
@@ -25,7 +35,7 @@ public class LoginFragment extends Fragment {
     EditText usernameEdit;
     WebView webView;
 
-    OAuthenticationInstance oauth;
+    OAuthProvider.Builder provider = OAuthProvider.newBuilder("github.com");
 
     @Nullable
     @Override
@@ -41,8 +51,6 @@ public class LoginFragment extends Fragment {
         usernameEdit = view.findViewById(R.id.login_username_editText);
         webView = view.findViewById(R.id.login_github_webview);
         webView.setVisibility(View.GONE);
-
-        oauth = new OAuthenticationInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +73,48 @@ public class LoginFragment extends Fragment {
         //Intent github = oauth.getAuthorization(userName);
         //startActivity(github);
 
-        String URL = "https://github.com/login/oauth/authorize" + "?client_id=" + BuildConfig.clientID + "&login=" + userName + "&scope=repo";
-        webView.loadUrl(URL);
-        webView.setVisibility(View.VISIBLE);
+        provider.addCustomParameter("login", userName);
+        List<String> scopes = new ArrayList<>();
+        scopes.add("repo");
+        provider.setScopes(scopes);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("GroupGithub", Context.MODE_PRIVATE);
+
+        Task<AuthResult> task = firebaseAuth.getPendingAuthResult();
+        if(task != null) {
+            task.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+                    String userName = authResult.getAdditionalUserInfo().getUsername();
+                    OAuthCredential credential = (OAuthCredential)authResult.getCredential();
+                    Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Failed to login", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            //add the actual listener
+            firebaseAuth.startActivityForSignInWithProvider(getActivity(), provider.build())
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            String userName = authResult.getAdditionalUserInfo().getUsername();
+                            OAuthCredential credential = (OAuthCredential)authResult.getCredential();
+                            Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Failed to login", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 }
