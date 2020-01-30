@@ -49,11 +49,11 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
 
         //todo: replace username with the values from SharedPreferences
 
-        viewModel.getRepos("chrisfitz4")?.subscribe {
-            rvAdapter =
-                RepoAdapter(it as ArrayList<GithubRepos>, this, this)
-            rv_main.adapter = rvAdapter
-        }?.let { compositeDisposable.add(it) }
+//        viewModel.getRepos("chrisfitz4")?.subscribe {
+//            rvAdapter =
+//                RepoAdapter(it as ArrayList<GithubRepos>, this, this)
+//            rv_main.adapter = rvAdapter
+//        }?.let { compositeDisposable.add(it) }
     }
 
     private fun setUpSplashScreen() {

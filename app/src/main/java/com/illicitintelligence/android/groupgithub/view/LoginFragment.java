@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
     EditText usernameEdit;
 
     TextView usernameText;
-    TextView tokenText;
+    EditText tokenText;
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("github.com");
 
@@ -95,7 +95,7 @@ public class LoginFragment extends Fragment {
                     String userName = authResult.getAdditionalUserInfo().getUsername();
                     usernameText.setText(userName);
                     OAuthCredential credential = (OAuthCredential)authResult.getCredential();
-                    tokenText.setText(credential.getIdToken() + ": " + credential.getAccessToken());
+                    tokenText.setText(credential.getAccessToken());
                     Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -114,7 +114,7 @@ public class LoginFragment extends Fragment {
                             String userName = authResult.getAdditionalUserInfo().getUsername();
                             usernameText.setText(userName);
                             OAuthCredential credential = (OAuthCredential)authResult.getCredential();
-                            tokenText.setText(credential.getIdToken() + ": " + credential.getAccessToken());
+                            tokenText.setText(credential.getAccessToken());
                             Toast.makeText(getContext(), credential.getAccessToken(), Toast.LENGTH_SHORT).show();
 
                         }
