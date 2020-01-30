@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/reponame_textview_commitfrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Sample Repo Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/cream"/>
+
+    <TextView
+        android:id="@+id/language_textview_commitfrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Java"
+        android:textSize="12sp"
+        android:textColor="@color/cream"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/owner_textview_commitfrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="the owner"
+        android:textColor="@color/cream"
+        app:layout_constraintTop_toBottomOf="@id/reponame_textview_commitfrag"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:id="@+id/divider_commitfrag"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/cream"
+        app:layout_constraintTop_toBottomOf="@id/owner_textview_commitfrag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_commitfrag"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/divider_commitfrag"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
