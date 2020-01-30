@@ -1,6 +1,7 @@
 package com.illicitintelligence.android.groupgithub.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.illicitintelligence.android.groupgithub.R;
+import com.illicitintelligence.android.groupgithub.model.AppUser;
 import com.illicitintelligence.android.groupgithub.model.GithubRepos;
+import com.illicitintelligence.android.groupgithub.util.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
 
-    private final int CUTOFF_LENGTH_SMALL = 16;
+    private final String TAG = "TAG_X";
+
+    private final int CUTOFF_LENGTH_SMALL = 15;
     private final int CUTOFF_LENGTH_MEDIUM = 20;
     private ArrayList<GithubRepos> repos;
     private Context context;
     private OpenCommitsDelegate delegate;
+    SharedPreferences sharedPreferences;
+    HashMap<String,Integer> appUsers = new HashMap<>();
 
     public interface OpenCommitsDelegate{
         void getCommits(GithubRepos repo);
@@ -34,6 +42,18 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
         this.repos = repos;
         this.context = context;
         this.delegate = delegate;
+        this.sharedPreferences = context.getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES,Context.MODE_PRIVATE);
+        String users = sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"");
+
+        if(users.length()!=0){
+            String[] userList = users.split(",");
+            Log.d(TAG, "RepoAdapter: "+users);
+            for(int i = 0; i<userList.length;i++){
+                String[] oneUser = userList[i].split("\\.");
+                appUsers.put(oneUser[0],Integer.parseInt(oneUser[1]));
+                Log.d(TAG, "RepoAdapter check: "+oneUser[0]+"  ,  "+oneUser[1]);
+            }
+        }
     }
 
 
@@ -66,6 +86,11 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
                 delegate.getCommits(repos.get(position));
             }
         });
+        try {
+            holder.itemView.getBackground().setTint(appUsers.get(repos.get(position).getOwner().getLogin()));
+        }catch(NullPointerException n){
+            Log.e(TAG, "onBindViewHolder: "+n.getMessage());
+        }
     }
 
     private String wrappingHelper(String toWrap){

@@ -18,6 +18,7 @@ class GithubViewModel (application: Application) : AndroidViewModel(application)
     private val githubRetrofit = GithubRetrofit()
     private val compositeDisposable = CompositeDisposable()
 
+
     fun getUser(username: String): Observable<GithubUser>? {
         return githubRetrofit.getUser(username)
             .subscribeOn(Schedulers.io())
