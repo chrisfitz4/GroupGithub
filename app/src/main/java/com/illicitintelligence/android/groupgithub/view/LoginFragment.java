@@ -30,11 +30,16 @@ import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.OAuthProvider;
 import com.illicitintelligence.android.groupgithub.BuildConfig;
 import com.illicitintelligence.android.groupgithub.R;
+import com.illicitintelligence.android.groupgithub.model.GithubUser;
+import com.illicitintelligence.android.groupgithub.network.GithubRetrofit;
 import com.illicitintelligence.android.groupgithub.util.Constants;
 import com.illicitintelligence.android.groupgithub.viewmodel.GithubViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class LoginFragment extends Fragment {
 
@@ -44,6 +49,8 @@ public class LoginFragment extends Fragment {
     private TextView usernameText;
     private TextView tokenText;
     private CheckBox checkBox;
+
+    private final String TAG = "TAG_X";
 
     private OAuthProvider.Builder provider = OAuthProvider.newBuilder("github.com");
 
@@ -73,7 +80,7 @@ public class LoginFragment extends Fragment {
 
     public void onLogin() {
 
-        String userName = usernameEdit.getText().toString().trim();
+        final String userName = usernameEdit.getText().toString().trim();
 
         if(userName.isEmpty()) {
             Log.d("TAG_X", "onLogin: UserName is Empty.");
@@ -93,25 +100,48 @@ public class LoginFragment extends Fragment {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+        GithubViewModel viewmodel = ViewModelProviders.of(this).get(GithubViewModel.class);
 
-        MainActivity mainActivity = (MainActivity)getActivity();
-        mainActivity.getReposForUser(userName);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE);
-        String alreadyIn=sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"");
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if(alreadyIn.equals("")) {
-            editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,userName+"."+getContext().getColor(R.color.dandelion));
-        }else if(alreadyIn.contains(userName)){
-            Toast.makeText(this.getContext(),"User already in the system",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this.getContext(),"User has been added", Toast.LENGTH_SHORT).show();
-            editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,alreadyIn+","+userName+"."+getContext().getColor(R.color.dandelion));
-            Intent intent = new Intent();
-            intent.setAction("reread_shared_preferences");
-            getContext().sendBroadcast(intent);
-        }
-        editor.apply();
-        editor.commit();
+        CompositeDisposable disp = new CompositeDisposable();
+        disp.add(viewmodel.getUser(userName)
+                .subscribeWith(new DisposableObserver<GithubUser>() {
+                    @Override
+                    public void onNext(GithubUser githubUser) {
+                        Log.d(TAG, "onNext: The user exists");
+                        MainActivity mainActivity = (MainActivity)getActivity();
+                        mainActivity.getReposForUser(userName);
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE);
+                        String alreadyIn=sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if(alreadyIn.equals("")) {
+                            editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,userName+"."+getContext().getColor(R.color.dandelion));
+                        }else if(alreadyIn.contains(userName)){
+                            Toast.makeText(LoginFragment.this.getContext(),"User already in the system",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(LoginFragment.this.getContext(),"User has been added", Toast.LENGTH_SHORT).show();
+                            editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,alreadyIn+","+userName+"."+getContext().getColor(R.color.dandelion));
+                            Intent intent = new Intent();
+                            intent.setAction("reread_shared_preferences");
+                            getContext().sendBroadcast(intent);
+                        }
+                        editor.apply();
+                        editor.commit();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: The user doesn't exist");
+                        Toast.makeText(LoginFragment.this.getContext(), "That user doesn't exist", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+
+
 
         if(!checkBox.isChecked()){
             return;

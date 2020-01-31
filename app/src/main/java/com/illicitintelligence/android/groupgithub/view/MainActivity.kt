@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate,
 
     lateinit var sharedPreferences: SharedPreferences
 
+    val loginFragment = LoginFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate,
         sharedPreferences =
             getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE)
         if (sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY, "").equals("")) {
-            val loginFragment = LoginFragment()
+
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.expand_center,R.anim.collapse_center,R.anim.expand_center,R.anim.collapse_center)
                 .addToBackStack(loginFragment.tag)
@@ -100,6 +102,12 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate,
             .add(R.id.frameRV, splashFragment)
             .commit()
 
+    }
+
+    public fun removeLoginFragment() {
+        supportFragmentManager.beginTransaction()
+            .remove(loginFragment)
+            .commit()
     }
 
 

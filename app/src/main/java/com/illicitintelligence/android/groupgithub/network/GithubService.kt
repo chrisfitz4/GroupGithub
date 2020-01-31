@@ -33,4 +33,5 @@ interface GithubService {
         @Path("sha") sha: String,
         @Path("userName") userName: String,
         @Path("repo") repoName: String): Observable<CommitResult>
+
 }
