@@ -145,6 +145,17 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
     private void removeItemFromSharedP(String item) {
         Log.d("TAG_X", "removeItemFromSharedP: " + preferencesUser);
         String[] split = preferencesUser.split(item);
+        String[] splitLeadginComma = preferencesUser.split(","+item);
+        String[] splitTrailingComma = preferencesUser.split(item+",");
+        String[] splitLeadingAndTrailingComma = preferencesUser.split(","+item+",");
+
+        if (splitLeadingAndTrailingComma.length == split.length) {
+            split= splitLeadingAndTrailingComma;
+        }else if(splitLeadginComma.length == split.length){
+            split= splitLeadginComma;
+        }else if(splitTrailingComma.length == split.length){
+            split = splitTrailingComma;
+        }
 
         if (split.length == 0) {
             SharedPreferences.Editor editor = preferences.edit();
@@ -153,7 +164,6 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
             editor.clear();
             return;
         }
-
         for (int i = 0; i < split.length; i++) {
             Log.d("TAG_X", "removeItemFromSharedP: " + split[i]);
         }
@@ -162,8 +172,11 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
         for (int i = 1; i < split.length; i++) {
             toReturn += ',' + split[i];
         }
-        if (toReturn.charAt(0) == ',') {
-            toReturn = toReturn.substring(2);
+        while (toReturn.charAt(0) == ',') {
+            toReturn = toReturn.substring(1);
+        }
+        while(toReturn.charAt(toReturn.length()-1)==','){
+            toReturn= toReturn.substring(0,toReturn.length()-1);
         }
         Log.d("TAG_X","toReturn: " + toReturn);
         SharedPreferences.Editor editor = preferences.edit();
