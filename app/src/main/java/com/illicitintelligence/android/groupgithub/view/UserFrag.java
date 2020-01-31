@@ -1,7 +1,9 @@
 package com.illicitintelligence.android.groupgithub.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -61,6 +63,15 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
     int color = 0;
     ColorChangedDelegate delegate;
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction()!=null&&intent.getAction().equals("reread_shared_preferences")){
+                readFromSharedPreferences();
+            }
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,6 +84,8 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+
+        this.getContext().registerReceiver(receiver,new IntentFilter("reread_shared_preferences"));
 
         button = view.findViewById(R.id.button_adduser);
         textViewww = view.findViewById(R.id.users_txt);
@@ -120,6 +133,7 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
         if (preferencesUser.equals("")) {
             //do nothing?
         } else {
+            listUsers = new ArrayList<>();
             String[] splitUsers = preferencesUser.split(",");
             listUsers.addAll(Arrays.asList(splitUsers));
             userAdapter = new UserAdapter(listUsers, this);
@@ -209,5 +223,13 @@ public class UserFrag extends Fragment implements UserAdapter.ChooseUserDelegate
         innerLayout.setVisibility(View.GONE);
         saveButton.setVisibility(View.GONE);
         themeSelection.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        if(this.getContext()!=null){
+            this.getContext().unregisterReceiver(receiver);
+        }
+        super.onDestroy();
     }
 }
