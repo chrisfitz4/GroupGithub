@@ -2,8 +2,9 @@ package com.illicitintelligence.android.groupgithub.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.illicitintelligence.android.groupgithub.adapter.CommitAdapter;
 
-public class GithubRepos {
+public class GithubRepos implements Comparable<GithubRepos> {
 
     @SerializedName("id")
     @Expose
@@ -1174,5 +1175,9 @@ public class GithubRepos {
         return this;
     }
 
+    @Override
+    public int compareTo(GithubRepos o) {
+        return name.compareTo(o.getName());
+    }
 }
 

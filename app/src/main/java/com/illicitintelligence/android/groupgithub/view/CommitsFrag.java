@@ -1,5 +1,7 @@
 package com.illicitintelligence.android.groupgithub.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class CommitsFrag extends Fragment {
+public class CommitsFrag extends Fragment implements CommitAdapter.NavigationDelegate {
 
     private GithubRepos repo;
     private final String TAG = "TAG_X";
@@ -67,7 +69,7 @@ public class CommitsFrag extends Fragment {
         repoName.setText(repo.getName());
         language.setText(repo.getLanguage());
         owner.setText(repo.getOwner().getLogin());
-        final CommitAdapter adapter = new CommitAdapter(new ArrayList<CommitResult>());
+        final CommitAdapter adapter = new CommitAdapter(new ArrayList<CommitResult>(),this);
         commits.setAdapter(adapter);
         commits.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
@@ -95,6 +97,12 @@ public class CommitsFrag extends Fragment {
                         Log.d(TAG, "onComplete: completed");
                     }
                 }));
+    }
+
+    @Override
+    public void navigate(String url) {
+        Intent viewingIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        this.startActivity(viewingIntent);
     }
 
     @Override

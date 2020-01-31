@@ -1,5 +1,6 @@
 package com.illicitintelligence.android.groupgithub.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,21 @@ import com.illicitintelligence.android.groupgithub.R;
 import com.illicitintelligence.android.groupgithub.model.GithubUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private ArrayList<String> users;
+    private List<String> users;
+    ChooseUserDelegate delegate;
 
-    public UserAdapter(ArrayList<String> users) {
+    public interface ChooseUserDelegate{
+        void clickUser(String username);
+    }
+
+    public UserAdapter(ArrayList<String> users, ChooseUserDelegate delegate) {
         this.users = users;
+        this.delegate = delegate;
     }
 
     @NonNull
@@ -32,9 +41,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
        // Log.d("TAG_P", "onBindViewHolder: "+ Arrays.toString(newuserss));
         String[] oneUser = users.get(position).split("\\.");
-
+        Log.d("TAG_X", "onBindViewHolder: "+users.get(position));
         holder.textViewnewusers.setText(oneUser[0]);
         holder.itemView.getBackground().setTint(Integer.parseInt(oneUser[1]));
+        holder.itemView.setOnClickListener(view->{
+            delegate.clickUser(users.get(position));
+        });
     }
 
     @Override
@@ -49,6 +61,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             super(itemView);
             textViewnewusers = itemView.findViewById(R.id.users_rvtxt);
         }
+    }
+
+    public String removeItem(int position){
+        Log.d("TAG_X", "removeItem: "+position);
+        return users.remove(position);
+    }
+
+    public void setUsers(ArrayList<String> users){
+        this.users = users;
+    }
+
+    public void setUsers(String[] users){
+        this.users = Arrays.asList(users);
     }
 
 }

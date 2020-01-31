@@ -1,24 +1,33 @@
 package com.illicitintelligence.android.groupgithub.network
 
+import android.app.IntentService
+import android.content.Intent
 import com.illicitintelligence.android.groupgithub.model.GithubRepos
 import com.illicitintelligence.android.groupgithub.model.GithubUser
 import com.illicitintelligence.android.groupgithub.model.commits.CommitResult
 import com.illicitintelligence.android.groupgithub.util.Constants
 import io.reactivex.Observable
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GithubRetrofit {
+class GithubRetrofit(val cache: Cache) {
+
 
     var githubService: GithubService = getGithubService(getRetrofit())
 
+    private val httpClient: OkHttpClient? = null
+    private val cacheSize = (10 * 1024 * 1024).toLong()
+
     private fun getRetrofit(): Retrofit {
+
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
         val client = OkHttpClient.Builder()
+            .cache(cache)
             .addInterceptor(logging)
             .build()
 

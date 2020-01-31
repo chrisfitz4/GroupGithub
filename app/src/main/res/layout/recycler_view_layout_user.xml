@@ -14,51 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/user_iconn"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
 
         <TextView
-            android:id="@+id/repoName_textviewww"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="User"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:gravity="left"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/user_iconn"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-
-
-        <TextView
-
             android:id="@+id/users_rvtxt"
-
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="username"
             android:layout_marginStart="24dp"
-            android:textSize="20sp"
+            android:textSize="40sp"
+            android:gravity="center"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@id/user_iconn"
-            app:layout_constraintTop_toBottomOf="@id/repoName_textviewww"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textColor="@color/cream"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 

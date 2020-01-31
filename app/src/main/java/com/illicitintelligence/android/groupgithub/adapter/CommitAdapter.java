@@ -1,8 +1,13 @@
 package com.illicitintelligence.android.groupgithub.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +22,15 @@ import java.util.List;
 public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder> {
 
     private List<CommitResult> commits;
+    private NavigationDelegate navigationDelegate;
 
-    public CommitAdapter(List<CommitResult> commits) {
+    public interface NavigationDelegate{
+        void navigate(String url);
+    }
+
+    public CommitAdapter(List<CommitResult> commits, NavigationDelegate context) {
         this.commits = commits;
+        this.navigationDelegate = context;
     }
 
     public void setCommits(List<CommitResult> commits) {
@@ -41,6 +52,9 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
         String date = currentCommit.getCommit().getAuthor().getMessage();
         String[] dateSplit = date.split("T");
         holder.date.setText(dateSplit[0]);
+        holder.navigate.setOnClickListener(view->{
+            navigationDelegate.navigate(commits.get(position).getHtmlUrl());
+        });
     }
 
     @Override
@@ -55,6 +69,7 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
         TextView description;
         TextView pluses;
         TextView minuses;
+        ImageView navigate;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.commit_author_tv);
@@ -62,6 +77,7 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
             description = itemView.findViewById(R.id.commit_description_tv);
             pluses = itemView.findViewById(R.id.commit_pluses_tv);
             minuses = itemView.findViewById(R.id.commit_minuses_tv);
+            navigate = itemView.findViewById(R.id.navigation_rv_commits);
         }
     }
 }
