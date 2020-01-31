@@ -14,24 +14,20 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GithubRetrofit : IntentService("CachingIntentService") {
+class GithubRetrofit(val cache: Cache) {
 
-    override fun onHandleIntent(intent: Intent?) {
-
-    }
 
     var githubService: GithubService = getGithubService(getRetrofit())
 
     private val httpClient: OkHttpClient? = null
     private val cacheSize = (10 * 1024 * 1024).toLong()
 
-    private val cache = Cache(applicationContext.cacheDir, 5 * 1024 * 1024)
-
     private fun getRetrofit(): Retrofit {
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
         val client = OkHttpClient.Builder()
+            .cache(cache)
             .addInterceptor(logging)
             .build()
 

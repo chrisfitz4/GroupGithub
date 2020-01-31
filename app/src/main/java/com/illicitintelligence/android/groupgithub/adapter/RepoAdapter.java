@@ -42,9 +42,22 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
         this.repos = repos;
         this.context = context;
         this.delegate = delegate;
+        readSharedPreferences();
+    }
+
+    public void readSharedPreferences() {
         this.sharedPreferences = context.getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES,Context.MODE_PRIVATE);
         String users = sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"");
-
+        Log.d(TAG, "readSharedPreferences: "+users);
+        if(users.equals("")){
+            return;
+        }
+        if(users.charAt(0)==','){
+            users=users.substring(1);
+        }
+        if(users.charAt(users.length()-1)==','){
+            users=users.substring(0,users.length()-1);
+        }
         if(users.length()!=0){
             String[] userList = users.split(",");
             Log.d(TAG, "RepoAdapter: "+users);
@@ -70,14 +83,6 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
         holder.textViewUser.setText(repos.get(position).getOwner().getLogin());
         holder.textViewRepoName.setText(repos.get(position).getName());
         holder.language.setText(repos.get(position).getLanguage());
-        if(repos.get(position).getName().length()>CUTOFF_LENGTH_MEDIUM){
-            holder.textViewRepoName.setText(wrappingHelper(repos.get(position).getName()));
-            holder.textViewRepoName.setTextSize(18);
-        }else if(repos.get(position).getName().length()>CUTOFF_LENGTH_SMALL){
-            holder.textViewRepoName.setTextSize(18);
-        }else{
-            holder.textViewRepoName.setTextSize(24);
-        }
         Glide.with(context).load(repos.get(position).getOwner().getAvatarUrl()).into(holder.userIcon);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,24 +94,9 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
         try {
             holder.itemView.getBackground().setTint(appUsers.get(repos.get(position).getOwner().getLogin()));
         }catch(NullPointerException n){
+            holder.itemView.getBackground().setTint(context.getColor(R.color.dandelion));
             Log.e(TAG, "onBindViewHolder: "+n.getMessage());
         }
-    }
-
-    private String wrappingHelper(String toWrap){
-        String toReturn = toWrap;
-        if(toWrap.contains("_")){
-            for(int i = toWrap.length()-1; i>0; i--){
-                if(toWrap.charAt(i)=='_'||toWrap.charAt(i)=='-'){
-                    toReturn = "";
-                    toReturn+=toWrap.substring(0,i)+"\n "+toWrap.substring(i);
-                    Log.d("TAG_X", "wrappingHelper: "+toReturn);
-                    break;
-                }
-            }
-            return toReturn;
-        }
-        return toReturn;
     }
 
     @Override

@@ -28,6 +28,8 @@
             android:id="@+id/repoName_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="40sp"
             tools:text="Sample Repo"
             android:textColor="#FFFFFF"
             android:textSize="24sp"

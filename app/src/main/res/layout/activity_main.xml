@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:elevation="4dp" />
 
-
     <View
         android:id="@+id/divider_main"
         android:layout_width="0dp"
@@ -33,6 +32,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_list"
+        android:onClick="onClickUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

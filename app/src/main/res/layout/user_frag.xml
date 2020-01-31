@@ -1,62 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    android:clickable="true"
 
-<FrameLayout
+    >
 
-    android:elevation="4dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    />
-
-
+    <FrameLayout
+        android:id="@+id/frame_layout_userfrag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-
-
-
         android:id="@+id/users_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
         android:text="@string/users"
-        android:textSize="48sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/cream"
+        android:textSize="32sp"
+        android:layout_marginTop="8dp"
+        app:layout_goneMarginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/save_button_usersfrag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:visibility="invisible"
+        android:backgroundTint="@color/cream"
+        android:background="@drawable/bg_round"
+        android:textSize="24sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_adduser"/>
+
+    <Button
+        android:id="@+id/button_adduser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_user"
+        android:backgroundTint="@color/cream"
+        android:background="@drawable/bg_round"
+        android:textSize="24sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users_rv_userslayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/inner_layout_userfrag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/users_txt" />
+
+    <TextView
+        android:id="@+id/theme_selection_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select a theme"
+        android:visibility="gone"
+        android:textColor="@color/cream"
+        app:layout_goneMarginBottom="16dp"
+        app:layout_constraintStart_toStartOf="@id/inner_layout_userfrag"
+        app:layout_constraintEnd_toEndOf="@id/inner_layout_userfrag"
+        app:layout_constraintTop_toBottomOf="@id/users_rv_userslayout"
+        android:textSize="16sp"/>
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inner_layout_userfrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/save_button_usersfrag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <View
+            android:id="@+id/color00"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/apricot"
+            style="@style/button_style"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
+        <View
+            android:id="@+id/color01"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/lime"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color00"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-<Button
-    android:id="@+id/button_adduser"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="@string/add_user"
-    android:gravity="center_horizontal"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    />
+        <View
+            android:id="@+id/color02"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/hulu"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color11"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintTop_toBottomOf="@id/users_txt"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/button_adduser"
-    />
+        <View
+            android:id="@+id/color10"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/turquoise"
+            style="@style/button_style"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/color00"/>
+
+        <View
+            android:id="@+id/color11"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/water"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color10"
+            app:layout_constraintTop_toBottomOf="@id/color01"/>
+
+        <View
+            android:id="@+id/color12"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/violet"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color11"
+            app:layout_constraintTop_toBottomOf="@id/color02"/>
+
+        <View
+            android:id="@+id/color20"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/peach"
+            style="@style/button_style"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/color10"/>
+
+        <View
+            android:id="@+id/color21"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/blossom"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color20"
+            app:layout_constraintTop_toBottomOf="@id/color11"/>
+
+        <View
+            android:id="@+id/color22"
+            android:layout_width="@dimen/dimen_colorbutton"
+            android:layout_height="@dimen/dimen_colorbutton"
+            android:background="@color/youtube"
+            style="@style/button_style"
+            app:layout_constraintStart_toEndOf="@id/color21"
+            app:layout_constraintTop_toBottomOf="@id/color12"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,10 +12,11 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Cache
 
 class GithubViewModel (application: Application) : AndroidViewModel(application) {
 
-    private val githubRetrofit = GithubRetrofit()
+    private val githubRetrofit = GithubRetrofit(Cache(application.cacheDir, 5 * 1024 * 1024))
     private val compositeDisposable = CompositeDisposable()
 
 

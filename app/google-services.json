@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "747470224395-juu6pmg0fui4p9732k4p9bbt7n47jchq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.illicitintelligence.android.groupgithub",
+            "certificate_hash": "fdc54f1e7bd9462c6551b2015f041b01db9bc123"
+          }
+        },
+        {
           "client_id": "747470224395-h9ar3k5tkeqv2j47urh4l2bu30nat5l7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

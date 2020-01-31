@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.illicitintelligence.android.groupgithub.BuildConfig
 import androidx.lifecycle.Observer
@@ -25,13 +26,15 @@ import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
+class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate,
+    UserFrag.ColorChangedDelegate {
 
     lateinit var viewModel: GithubViewModel
     val TAG = "TAG_X"
     val compositeDisposable = CompositeDisposable()
     lateinit var rvAdapter: RepoAdapter
     var repoList = ArrayList<GithubRepos>()
+    var arrayList = ArrayList<String>()
 
     lateinit var sharedPreferences: SharedPreferences
 
@@ -39,44 +42,38 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        next_user_btn.setOnClickListener {
-            val login = LoginFragment()
-            supportFragmentManager.beginTransaction()
-                .addToBackStack(login.tag)
-                .add(R.id.frameRV, login)
-                .commit()
-        }
-
-        sharedPreferences = getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE)
-        if(sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY,"").equals("")){
-            val editor = sharedPreferences.edit()
-            var chrisAndTrung: String = ""
-            chrisAndTrung+="chrisfitz4"
-            chrisAndTrung+=Constants.DUMMY_SHAREDPREFERENCES_REGEX_TWO
-            chrisAndTrung+= Color.CYAN
-            Log.d(TAG, ""+Color.CYAN)
-            chrisAndTrung+=Constants.DUMMY_SHAREDPREFERENCES_REGEX
-            chrisAndTrung+="trung-luu-enhance"
-            chrisAndTrung+=Constants.DUMMY_SHAREDPREFERENCES_REGEX_TWO
-            chrisAndTrung+= Color.GREEN
-            editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,chrisAndTrung)
-            editor.apply()
-            editor.clear()
-        }
-
-        rvAdapter = RepoAdapter(ArrayList<GithubRepos>(),this, this)
-        //setUpSplashScreen()
+        rvAdapter = RepoAdapter(ArrayList<GithubRepos>(), this, this)
 
         viewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         setUpRV()
 
-        //todo: replace username with the values from SharedPreferences
-
-        getReposForUser("chrisfitz4")
-        getReposForUser("trung-luu-enhance")
+        sharedPreferences =
+            getSharedPreferences(Constants.DUMMY_SHAREDPREFERENCES, Context.MODE_PRIVATE)
+        if (sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY, "").equals("")) {
+            val loginFragment = LoginFragment()
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.expand_center,R.anim.collapse_center,R.anim.expand_center,R.anim.collapse_center)
+                .addToBackStack(loginFragment.tag)
+                .add(R.id.frameRV,loginFragment)
+                .commit()
+        } else {
+            setUpSplashScreen()
+            var repoUsers: String? =
+                sharedPreferences.getString(Constants.DUMMY_SHAREDPREFERENCES_KEY, "")
+            var userNames = repoUsers?.split(",")
+            if (userNames != null) {
+                for(item in userNames){
+                    Log.d(TAG,item+"----->"+item.split(".")[0])
+                    arrayList.add(item.split(".")[0])
+                }
+            }
+            for(item in arrayList){
+                getReposForUser(item)
+            }
+        }
     }
 
-    private fun getReposForUser(user: String) {
+    fun getReposForUser(user: String) {
         viewModel.getRepos(user)?.subscribe {
             if (repoList.size == 0) {
                 repoList = it as ArrayList<GithubRepos>
@@ -102,8 +99,25 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
             .addToBackStack(splashFragment.tag)
             .add(R.id.frameRV, splashFragment)
             .commit()
+
     }
-    private fun setUpRV(){
+
+
+    public fun onClickUser(view: View) {
+        val userFrag = UserFrag(this)
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.expand_topright,
+                R.anim.collapse_topright,
+                R.anim.expand_topright,
+                R.anim.collapse_topright
+            )
+            .addToBackStack(userFrag.tag)
+            .add(R.id.frameRV, userFrag)
+            .commit()
+    }
+
+    private fun setUpRV() {
         rv_main.adapter = rvAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
     }
@@ -111,10 +125,29 @@ class MainActivity : AppCompatActivity(), RepoAdapter.OpenCommitsDelegate {
     override fun getCommits(repo: GithubRepos?) {
         val commitFragment = CommitsFrag(repo)
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.expand_center,R.anim.collapse_center,R.anim.expand_center,R.anim.collapse_center)
-            .add(R.id.frameRV,commitFragment)
+            .setCustomAnimations(
+                R.anim.expand_center,
+                R.anim.collapse_center,
+                R.anim.expand_center,
+                R.anim.collapse_center
+            )
+            .add(R.id.frameRV, commitFragment)
             .addToBackStack(commitFragment.tag)
             .commit()
+    }
+
+    override fun rereadSharedPreferences() {
+        rvAdapter.readSharedPreferences()
+        rvAdapter.notifyDataSetChanged()
+    }
+
+    override fun notifyDeletionFromSharedP(user: String?) {
+        Log.d("TAG_X",user)
+        for(item in repoList){
+//            if(user.equals(item.owner.login)){
+//                repoList.remove(item)
+//            }
+        }
     }
 
     override fun onDestroy() {
