@@ -1,6 +1,8 @@
 package com.illicitintelligence.android.groupgithub.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,7 +104,11 @@ public class LoginFragment extends Fragment {
         }else if(alreadyIn.contains(userName)){
             Toast.makeText(this.getContext(),"User already in the system",Toast.LENGTH_SHORT).show();
         }else{
+            Toast.makeText(this.getContext(),"User has been added", Toast.LENGTH_SHORT).show();
             editor.putString(Constants.DUMMY_SHAREDPREFERENCES_KEY,alreadyIn+","+userName+"."+getContext().getColor(R.color.dandelion));
+            Intent intent = new Intent();
+            intent.setAction("reread_shared_preferences");
+            getContext().sendBroadcast(intent);
         }
         editor.apply();
         editor.commit();

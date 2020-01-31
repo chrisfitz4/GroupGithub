@@ -7,4 +7,6 @@
     <string name="animation">animation</string>
     <string name="add_newuser">add new user</string>
     <string name="save">Save</string>
+    <string name="username">Username</string>
+    <string name="add_user_from_github">Add user from Github</string>
 </resources>

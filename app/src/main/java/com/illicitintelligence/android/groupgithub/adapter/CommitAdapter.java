@@ -47,7 +47,11 @@ public class CommitAdapter extends RecyclerView.Adapter<CommitAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull CommitAdapter.ViewHolder holder, int position) {
         CommitResult currentCommit = commits.get(position);
-        holder.author.setText(currentCommit.getAuthor().getLogin());
+        if(currentCommit.getAuthor() != null)
+            holder.author.setText(currentCommit.getAuthor().getLogin());
+        else
+            holder.author.setText("No author");
+
         holder.description.setText(currentCommit.getCommit().getMessage());
         String date = currentCommit.getCommit().getAuthor().getMessage();
         String[] dateSplit = date.split("T");
